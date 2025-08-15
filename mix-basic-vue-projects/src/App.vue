@@ -2,7 +2,7 @@
 
 <template>
   <v-app>
-    <v-navigation-drawer permanent width="300">
+    <v-navigation-drawer theme="dark" permanent width="300">
       <v-list-item
         prepend-avatar="https://avatars.githubusercontent.com/u/225190133?v=4"
         title="My past projects portfolio"

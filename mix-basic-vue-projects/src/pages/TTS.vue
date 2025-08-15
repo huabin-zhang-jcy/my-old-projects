@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, onMounted, onUpdated } from 'vue'
+import { ref, reactive, computed, onMounted, onUpdated, onBeforeUnmount } from 'vue'
 const callMethods = [{ text: 'Web Speech API (speechSynthesis)', value: 'webapi' }]
 let selectedCallMethod = ref(callMethods[0].value)
 const max = 200
@@ -10,9 +10,19 @@ const state = reactive({
   rate: 0.6,
   pitch: 1.0,
   volume: 0.7,
+  istSpeaking: false,
 })
 const remaining = computed(() => max - state.text.length)
+// stop the current speech if it is speaking
+const stop = function () {
+  const speechSynthesis = window.speechSynthesis
+  if (speechSynthesis && speechSynthesis.speaking) {
+    speechSynthesis.cancel()
+  }
+  state.istSpeaking = false
+}
 const speak = function () {
+  stop() // Stop any ongoing speech before starting a new one
   if (state.text.length > max) {
     alert(`Text exceeds the maximum limit of ${max} characters.`)
     return
@@ -25,6 +35,12 @@ const speak = function () {
   utterance.rate = state.rate
   utterance.pitch = state.pitch
   utterance.volume = state.volume
+  utterance.onstart = () => {
+    state.istSpeaking = true
+  }
+  utterance.onend = () => {
+    state.istSpeaking = false
+  }
   speechSynthesis.speak(utterance)
 }
 // Load Web Speech API voices
@@ -41,30 +57,34 @@ const loadWebSpeechAPI = function () {
       if (!a.default && b.default) return 1
       return 0
     })
+    // sort the voice by lang, the targetLangs order
+    targetVoices.sort((a, b) => {
+      const langAIndex = targetLangs.indexOf(a.lang)
+      const langBIndex = targetLangs.indexOf(b.lang)
+      return langAIndex - langBIndex
+    })
     // set the voiceItems each item add index property
     targetVoices.forEach((voice, index) => {
       voice.index = index
     })
     state.voiceItems = targetVoices
   }
-  console.log(state.voiceItems)
-}
-// according to the selected callMethod, set which TTS method to use
-const loadLanguages = function () {
-  if (selectedCallMethod.value === 'webapi') {
-    // Load voices when the page is loaded
-    window.speechSynthesis.onvoiceschanged = () => {
-      loadWebSpeechAPI()
-    }
-  }
 }
 // avoid the voices not loaded when in local development environment automatically update page
-onUpdated(() => {
-  loadLanguages()
-})
+onUpdated(() => {})
 
 onMounted(() => {
-  loadLanguages()
+  loadWebSpeechAPI()
+  // get the voices process is asynchronous, at the first time it may be empty. when the voices are loaded, the voiceschanged enent will be triggered.
+  window.speechSynthesis.addEventListener('voiceschanged', loadWebSpeechAPI)
+  window.addEventListener('beforeunload', stop) // Stop speech when the page is unloaded
+})
+
+onBeforeUnmount(() => {
+  // remove the event listener to avoid memory leak
+  window.speechSynthesis.removeEventListener('voiceschanged', loadWebSpeechAPI)
+  // in to the other page, stop the speech
+  stop()
 })
 </script>
 
@@ -90,7 +110,8 @@ onMounted(() => {
                   :hint="`${remaining} characters left`"
                 ></v-textarea>
                 <div class="d-flex justify-end">
-                  <v-btn color="primary" @click="speak">Speak</v-btn>
+                  <v-btn :disabled="!state.istSpeaking" @click="stop" class="mr-2">Cancel</v-btn>
+                  <v-btn :disabled="state.istSpeaking" color="primary" @click="speak">Speak</v-btn>
                 </div>
               </v-col>
               <v-col cols="4">
