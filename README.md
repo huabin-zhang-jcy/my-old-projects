@@ -1,5 +1,5 @@
 # My-Old-Projects
-This repository includes models from a previous project I was involved in. 
+This repository includes models from a previous project I was involved in. Still in the process of sorting out, waiting to be improved ...
 
 [Live Demo](https://huabin-zhang-jcy.github.io/my-old-projects/)
 
