@@ -89,10 +89,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="tts-page">
-    <v-card class="mt-4">
+  <v-container class="tts-page">
+    <v-card>
       <v-card-title class="text-h5">Text-to-Speech (TTS)</v-card-title>
-      <v-card-subtitle>
+      <v-card-subtitle class="wrap-text">
         After entering the text to be recited, set the corresponding parameters on the right to
         generate the audio you want.
       </v-card-subtitle>
@@ -166,7 +166,12 @@ onBeforeUnmount(() => {
         </v-form>
       </v-card-text>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
-<style scoped></style>
+<style scoped>
+.wrap-text {
+  white-space: normal; /* allows text to wrap normally */
+  word-break: break-word; /* encounter lang word or url can also break */
+}
+</style>

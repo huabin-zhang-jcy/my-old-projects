@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import TTS from '@/pages/TTS.vue'
+import AppEditor from '@/pages/AppEditor.vue'
 
-const routes = [{ path: '/', name: 'tts', component: TTS }]
+const routes = [
+  { path: '/', name: 'tts', component: TTS },
+  { path: '/app-promotion-editor', name: 'app-editor', component: AppEditor },
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

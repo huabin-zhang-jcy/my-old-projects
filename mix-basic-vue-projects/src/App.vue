@@ -1,4 +1,22 @@
-<script setup></script>
+<script setup>
+import { reactive } from 'vue'
+const state = reactive({
+  navListItems: [
+    {
+      title: 'Text-to-Speech (TTS)',
+      icon: 'mdi-microphone-message',
+      value: 'tts',
+      to: '/',
+    },
+    {
+      title: 'App Promotion Editor',
+      icon: 'mdi-shopping',
+      value: 'app-editor',
+      to: '/app-promotion-editor',
+    },
+  ],
+})
+</script>
 
 <template>
   <v-app>
@@ -11,10 +29,12 @@
       <v-divider></v-divider>
       <v-list density="compact" nav>
         <v-list-item
-          prepend-icon="mdi-microphone-message"
-          title="Text-to-Speech (TTS)"
-          value="myfiles"
-          to="/"
+          v-for="item in state.navListItems"
+          :key="item.value"
+          :prepend-icon="item.icon"
+          :title="item.title"
+          :value="item.value"
+          :to="item.to"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
