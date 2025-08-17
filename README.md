@@ -8,6 +8,8 @@ In this version, create TTS Page. That main function is to use Chrome Web API to
 
 ### 1.0.1
 
+<img width="2556" height="1306" alt="image" src="https://github.com/user-attachments/assets/152fe7af-fda9-4db4-9f5e-0a1b61a46625" />
+
 #### Bug1-Audio can not Stop
 When user reload the page, the audio is still playing, at the first time i think i can in the vue lifecycle hook `onbeforeunmount` to stop the speech, but it is not working. Note that in the current project I am using the **Web Speech API**, which is a **native API** for background playback, so it will not stop playing immediately. If the <audio> element plays audio, this situation will not occur.
 
@@ -34,3 +36,11 @@ onMounted(() => {
 ```
 
 When page onmounted, loads the voices, and register `voiceschanged` Event, in order to update voices once voices load state changed.
+
+### 1.1.1
+
+In this version create app promotion editor page. That is a dashboard-like editor that lets app developers upload/edit icons, screenshots, banners, and texts, while showing a live preview of how the app will appear in the app store / promotional listing. Functions need to be improved.
+
+<img width="2570" height="1434" alt="image" src="https://github.com/user-attachments/assets/d03dfb1f-e719-4dfd-890e-e5a10730df91" />
+
+
