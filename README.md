@@ -43,4 +43,9 @@ In this version create app promotion editor page. That is a dashboard-like edito
 
 <img width="2570" height="1434" alt="image" src="https://github.com/user-attachments/assets/d03dfb1f-e719-4dfd-890e-e5a10730df91" />
 
+### 1.2.1
+
+In this version create user management page. Including regular list data addition, deletion, modification and query functions.
+
+<img width="2728" height="1332" alt="image" src="https://github.com/user-attachments/assets/2d107887-5312-415e-bcb7-64aaaefb7b68" />
 
