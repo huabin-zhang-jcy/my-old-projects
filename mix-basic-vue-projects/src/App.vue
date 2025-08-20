@@ -14,6 +14,12 @@ const state = reactive({
       value: 'app-editor',
       to: '/app-promotion-editor',
     },
+    {
+      title: 'User List Management',
+      icon: 'mdi-account-multiple',
+      value: 'user-list-management',
+      to: '/user-list-management',
+    },
   ],
 })
 </script>
